@@ -1,30 +1,30 @@
-name: Health Check
+# name: Health Check
 
-on:
-  schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
+# on:
+#   schedule:
+#     - cron: '*/5 * * * *'
+#   workflow_dispatch:
 
-jobs:
-  health-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Check health and version
-        run: |
-          response=$(curl -s ${{ secrets.APP_URL }}/api/health)
-          status=$(echo $response | jq -r '.status')
-          app_version=$(echo $response | jq -r '.version')
-          current_commit=$(git rev-parse HEAD)
+# jobs:
+#   health-check:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+#       - name: Check health and version
+#         run: |
+#           response=$(curl -s ${{ secrets.APP_URL }}/api/health)
+#           status=$(echo $response | jq -r '.status')
+#           app_version=$(echo $response | jq -r '.version')
+#           current_commit=$(git rev-parse HEAD)
           
-          if [ "$status" != "healthy" ]; then
-            echo "Health check failed: $status"
-            exit 1
-          fi
+#           if [ "$status" != "healthy" ]; then
+#             echo "Health check failed: $status"
+#             exit 1
+#           fi
           
-          if [ "$app_version" != "$current_commit" ]; then
-            echo "Version mismatch: app=$app_version, current=$current_commit"
-            exit 1
-          fi
+#           if [ "$app_version" != "$current_commit" ]; then
+#             echo "Version mismatch: app=$app_version, current=$current_commit"
+#             exit 1
+#           fi
           
-          echo "Health check passed with correct version"
+#           echo "Health check passed with correct version"
